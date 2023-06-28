@@ -8,6 +8,7 @@ import com.ezra.lender.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +33,11 @@ public class CheckDefaultedLoanScheduler {
 
     //Scheduler, checking and setting loans as defaulted if it has not been cleared within set period
 
-    @Scheduled(fixedDelay = 10000)
+//    @Scheduled(fixedDelay = 10000)
+    //Cron Pattern second, minute, hour, day, month, weekday
+    @Value("${loan-expiry}")
+     private int loanExpiry;
+    @Scheduled(cron="0 0 0 * * *")
     public void defaultLoanChecker() {
         LocalDateTime todaysDate = LocalDateTime.now();
         LOGGER.info("***Start Running scheduled task, checking defaulted loans" + todaysDate);
@@ -42,7 +47,7 @@ public class CheckDefaultedLoanScheduler {
 
         loans.stream().forEach(loan->{
 
-            if(LocalDateTime.now().plusDays(1).isAfter(loan.getDueDate())) {
+            if(LocalDateTime.now().minusMonths(loanExpiry).isAfter(loan.getDueDate())) {
 
                 new Thread(new Runnable() {
                     public void run() {
