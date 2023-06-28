@@ -10,6 +10,9 @@ import org.antlr.v4.runtime.misc.NotNull;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import javax.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
+
 
 @Getter
 @Setter
@@ -23,24 +26,24 @@ public class Loan {
     private long id;
 
 
-    @NotNull
+    @NotEmpty
     private double principalAmount;
 
-    @NotNull
+    @NotEmpty
     private double interest;
 
-    @NotNull
+    @NotEmpty
     private double totalAmount;
 
-    @NotNull
+    @NotEmpty
     private double outstandingAmount;
     private String description;
 
-    @NotNull
-    private String issuedDate;
+    @NotEmpty
+    private LocalDateTime issuedDate;
 
-    @NotNull
-    private String dueDate;
+    @NotEmpty
+    private LocalDateTime dueDate;
 
     @NotNull
     private String status;

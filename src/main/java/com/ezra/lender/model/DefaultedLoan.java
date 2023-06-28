@@ -7,9 +7,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.antlr.v4.runtime.misc.NotNull;
-import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+
+import javax.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -33,8 +35,8 @@ public class DefaultedLoan {
     @JsonIgnore
     private LoanType loanType;
 
-    @NotNull
+    @NotEmpty
     private double defaultedAmount;
-    @NotNull
-    private String defaultedOn;
+    @NotEmpty
+    private LocalDateTime defaultedOn;
 }

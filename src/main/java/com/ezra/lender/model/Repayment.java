@@ -6,9 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.antlr.v4.runtime.misc.NotNull;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+
+import javax.validation.constraints.NotEmpty;
 
 @Getter
 @Setter
@@ -20,16 +21,16 @@ public class Repayment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @NotNull
+    @NotEmpty
     private double amount;
-    @NotNull
+    @NotEmpty
     private String msisdn;
-    @NotNull
+    @NotEmpty
     private String paymentChannel;
 
-    @NotNull
+    @NotEmpty
     private String paymentDate;
-    @NotNull
+    @NotEmpty
     private String transactionRef;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
