@@ -55,7 +55,7 @@ public class LoanController {
             @ApiResponse(responseCode = "401",description = "Unauthorized user",content = @Content),
             @ApiResponse(responseCode = "404",description = "not loan found",content = @Content),
             @ApiResponse(responseCode = "400",description = "Bad Request",content = @Content)})
-    @PostMapping("new")
+
     @GetMapping("list")
     public ResponseEntity<?> findAll(){
         return loanService.getAll();
@@ -69,7 +69,7 @@ public class LoanController {
             @ApiResponse(responseCode = "401",description = "Unauthorized user",content = @Content),
             @ApiResponse(responseCode = "404",description = "No Loan with Provided Id found",content = @Content),
             @ApiResponse(responseCode = "400",description = "Bad Request",content = @Content)})
-    @PostMapping("new")
+
     @GetMapping("find/{id}")
     public ResponseEntity<?> findById(@PathVariable long id){
         return loanService.getLoanById(id);
