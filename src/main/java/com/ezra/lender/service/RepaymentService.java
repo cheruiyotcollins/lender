@@ -21,6 +21,8 @@ public class RepaymentService {
     @Autowired
     UserRepository userRepository;
     GeneralResponse generalResponse=new GeneralResponse();
+    @Autowired
+    EmailNotificationService emailSender;
     public ResponseEntity<?> makePayment(MakePaymentRequest makePaymentRequest){
         try{
             //checking if user and loan type exists
@@ -60,6 +62,18 @@ public class RepaymentService {
                     loan.setStatus("CLEARED");
                 }
                 loanRepository.save(loan);
+                new Thread(new Runnable() {
+                    public void run() {
+                        String sendTo = loan.getUser().getEmail();
+                        String subject = "Loan Repayment Notification";
+                        String emailBody = "Dear " + loan.getUser().getName() + "," + "\n" + "\n" + "Your repayment amount of KES "+repayment.getAmount()+ " has been successfully processed." +  "\n" +
+                                "Your outstanding balance is KES: "+loan.getOutstandingAmount()+". Thank you for being our loyal customer"
+                                + "\n\n" + "Regards" + "\n" + "Ezra Finance Department";
+
+                        emailSender.sendMail(sendTo, subject, emailBody);
+
+                    }
+                }).start();
 
                 generalResponse.setStatus(HttpStatus.CREATED);
                 generalResponse.setDescription("your repayment request has been received, your outstanding loan balance is: "+loan.getOutstandingAmount());

@@ -23,6 +23,8 @@ public class LoanService {
     @Autowired
     UserRepository userRepository;
     GeneralResponse generalResponse=new GeneralResponse();
+    @Autowired
+    EmailNotificationService emailSender;
 
     public ResponseEntity<?> addLoan(String email, AddLoanRequest addLoanRequest){
         try{
@@ -53,6 +55,19 @@ public class LoanService {
                 loan.setTotalAmount(totalAmount);
                 loan.setOutstandingAmount(totalAmount);
                 loan.setDueDate(LocalDateTime.now().plusMonths(loanType.getLoanDuration()) );
+           //Customer Notification
+                new Thread(new Runnable() {
+                    public void run() {
+                        String sendTo = loan.getUser().getEmail();
+                        String subject = "Loan Issuance Notification";
+                        String emailBody = "Dear " + loan.getUser().getName() + "," + "\n" + "\n" + "Your  loan amount of KES "+loan.getPrincipalAmount()+ " has been successfully processed." +  "\n" +
+                                "Please check your phone for a confirmation message. Thank you for being our loyal customer"
+                                + "\n\n" + "Regards" + "\n" + "Ezra Finance Department";
+
+                        emailSender.sendMail(sendTo, subject, emailBody);
+
+                    }
+                }).start();
 
                 loanRepository.save(loan);
                 generalResponse.setStatus(HttpStatus.CREATED);
