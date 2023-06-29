@@ -47,6 +47,7 @@ public class RepaymentService {
             }
             else{
                 //setting up and saving repayment to DB
+                if(!repaymentRepository.findByTransactionRef(makePaymentRequest.getTransactionRef()).isPresent()){
                 Repayment repayment = new Repayment();
                 repayment.setAmount(makePaymentRequest.getAmount());
                 repayment.setUser(userRepository.findById(makePaymentRequest.getUserId()).get());
@@ -80,15 +81,21 @@ public class RepaymentService {
                 generalResponse.setDescription("your repayment request has been received, your outstanding loan balance is: "+loan.getOutstandingAmount());
                 return new ResponseEntity<>(generalResponse, HttpStatus.CREATED);
 
+            }else{
+                    generalResponse.setStatus(HttpStatus.NOT_ACCEPTABLE);
+                    generalResponse.setDescription("Transaction with similar transaction ref is already made");
+                    return new ResponseEntity<>(generalResponse, HttpStatus.NOT_ACCEPTABLE);
+
+                }
+
             }
 
 
 
         }catch(Exception e){
-            generalResponse.setStatus(HttpStatus.BAD_REQUEST);
-            generalResponse.setDescription("Something went wrong, repayment not made");
-
-            return new ResponseEntity<>(generalResponse, HttpStatus.BAD_REQUEST);
+            generalResponse.setStatus(HttpStatus.NOT_ACCEPTABLE);
+            generalResponse.setDescription("Transaction with similar transaction ref is already made");
+            return new ResponseEntity<>(generalResponse, HttpStatus.NOT_ACCEPTABLE);
         }
 
     }
