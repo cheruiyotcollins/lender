@@ -19,7 +19,7 @@ public class LoanTypeService {
 
     public ResponseEntity<?> addLoanType(LoanType loanType){
         try{
-            loanTypeRepository.save(loanType);
+            generalResponse.setPayload(loanTypeRepository.save(loanType));
             generalResponse.setStatus(HttpStatus.CREATED);
             generalResponse.setDescription("Loan Type Created Successfully");
 
