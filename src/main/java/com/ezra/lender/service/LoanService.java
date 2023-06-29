@@ -40,7 +40,12 @@ public class LoanService {
                 generalResponse.setStatus(HttpStatus.NOT_ACCEPTABLE);
                 generalResponse.setDescription("You have an existing loan, Please repay your loan first");
                 return new ResponseEntity<>(generalResponse, HttpStatus.NOT_ACCEPTABLE);
-            }else{
+            }else if(userRepository.findByEmail(email).get().getCreditStatus().equals("BAD")){
+                generalResponse.setStatus(HttpStatus.NOT_ACCEPTABLE);
+                generalResponse.setDescription("You have an existing loan, Please repay your loan first");
+                return new ResponseEntity<>(generalResponse, HttpStatus.NOT_ACCEPTABLE);
+            }
+            else{
                 //creating and setting up loan
                 Loan loan = new Loan();
                 LoanType loanType = loanTypeRepository.findById(addLoanRequest.getLoanTypeId()).get();

@@ -27,7 +27,6 @@ public class RepaymentService {
     public ResponseEntity<?> makePayment(MakePaymentRequest makePaymentRequest){
         try{
             //checking if user and loan type exists
-            //Todo
             if(!userRepository.existsById(makePaymentRequest.getUserId())) {
                 generalResponse.setStatus(HttpStatus.NOT_FOUND);
                 generalResponse.setDescription("A user with provided id does not exist");
@@ -56,7 +55,7 @@ public class RepaymentService {
                 repayment.setTransactionRef(makePaymentRequest.getTransactionRef());
                 repayment.setPaymentDate(makePaymentRequest.getPaymentDate());
                 repaymentRepository.save(repayment);
-                  //todo check to avoid duplicate transaction ref
+
                 //Fetching associated loan and updating outstanding amount
                 Loan loan =loanRepository.findByUserId(makePaymentRequest.getUserId()).get();
                 loan.setOutstandingAmount(loan.getOutstandingAmount()- makePaymentRequest.getAmount());

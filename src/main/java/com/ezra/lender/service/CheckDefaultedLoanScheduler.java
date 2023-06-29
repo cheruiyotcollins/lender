@@ -2,6 +2,7 @@ package com.ezra.lender.service;
 
 import com.ezra.lender.model.DefaultedLoan;
 import com.ezra.lender.model.Loan;
+import com.ezra.lender.model.User;
 import com.ezra.lender.repository.DefaultedLoanRepository;
 import com.ezra.lender.repository.LoanRepository;
 import com.ezra.lender.repository.UserRepository;
@@ -37,7 +38,7 @@ public class CheckDefaultedLoanScheduler {
     //Cron Pattern second, minute, hour, day, month, weekday
     @Value("${loan-expiry}")
      private int loanExpiry;
-    @Scheduled(cron="0 0 0 * * *")
+//    @Scheduled(cron="0 0 0 * * *")
     public void defaultLoanChecker() {
         LocalDateTime todaysDate = LocalDateTime.now();
         LOGGER.info("***Start Running scheduled task, checking defaulted loans" + todaysDate);
@@ -47,9 +48,11 @@ public class CheckDefaultedLoanScheduler {
 
         loans.stream().forEach(loan->{
 
-            if(LocalDateTime.now().minusMonths(loanExpiry).isAfter(loan.getDueDate())) {
+//            if(LocalDateTime.now().minusMonths(loanExpiry).isAfter(loan.getDueDate())) {
+                if(LocalDateTime.now().isAfter(loan.getDueDate().plusMonths(loanExpiry))) {
 
                 new Thread(new Runnable() {
+                    //Sending email notification
                     public void run() {
                         String sendTo = loan.getUser().getEmail();
                         String subject = "Loan Default Notification";
@@ -69,6 +72,9 @@ public class CheckDefaultedLoanScheduler {
 
                 defaultedLoanRepository.save(defaultedLoan);
                 loanRepository.deleteById(loan.getId());
+                User user= userRepository.findById(loan.getUser().getId()).get();
+                user.setCreditStatus("BAD");
+                userRepository.save(user);
 
             }
         });
