@@ -3,12 +3,16 @@ package com.ezra.lender.service;
 import com.ezra.lender.dto.GeneralResponse;
 import com.ezra.lender.model.LoanType;
 import com.ezra.lender.repository.LoanTypeRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
+@RequiredArgsConstructor
 public class LoanTypeService {
     @Autowired
     LoanTypeRepository loanTypeRepository;

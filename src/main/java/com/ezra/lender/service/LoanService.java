@@ -7,6 +7,8 @@ import com.ezra.lender.model.LoanType;
 import com.ezra.lender.repository.LoanRepository;
 import com.ezra.lender.repository.LoanTypeRepository;
 import com.ezra.lender.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +16,11 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
 @Service
+@Slf4j
+@RequiredArgsConstructor
 public class LoanService {
 
-    @Autowired
-    LoanRepository loanRepository;
+    private final  LoanRepository loanRepository;
     @Autowired
     LoanTypeRepository loanTypeRepository;
     @Autowired

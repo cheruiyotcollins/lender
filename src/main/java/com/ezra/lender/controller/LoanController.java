@@ -8,6 +8,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -15,9 +17,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/loans/")
+@Slf4j
+@RequiredArgsConstructor
 public class LoanController {
-    @Autowired
-    LoanService loanService;
+    private final LoanService loanService;
 
      //Customer only
      @Operation(summary = "Add new Loan")
@@ -55,7 +58,7 @@ public class LoanController {
             @ApiResponse(responseCode = "401",description = "Unauthorized user",content = @Content),
             @ApiResponse(responseCode = "404",description = "not loan found",content = @Content),
             @ApiResponse(responseCode = "400",description = "Bad Request",content = @Content)})
-    @PostMapping("new")
+
     @GetMapping("list")
     public ResponseEntity<?> findAll(){
         return loanService.getAll();
@@ -69,7 +72,7 @@ public class LoanController {
             @ApiResponse(responseCode = "401",description = "Unauthorized user",content = @Content),
             @ApiResponse(responseCode = "404",description = "No Loan with Provided Id found",content = @Content),
             @ApiResponse(responseCode = "400",description = "Bad Request",content = @Content)})
-    @PostMapping("new")
+
     @GetMapping("find/{id}")
     public ResponseEntity<?> findById(@PathVariable long id){
         return loanService.getLoanById(id);
