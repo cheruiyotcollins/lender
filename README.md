@@ -12,7 +12,7 @@ The app has two authentication users for easier testing
 1. Normal user (username/password=```member/member```)
 2. Admin user(username/password=```admin/admin```) 
 3. After F setting up the project as per the  guidelines below and your application has started, create user Admin and Member, check swagger documentation for user signup api .
- After sign in using the created user, you will be granted a bearer token which should be used for authentication, add to header of every request.
+ After signing in using the created user, you will be granted a bearer token which should be used for authentication, add to header of every request.
 
 To get started with this project, you will need to have the following installed on your local machine:
 
