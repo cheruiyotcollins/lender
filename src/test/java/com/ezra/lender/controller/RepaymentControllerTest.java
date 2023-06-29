@@ -37,7 +37,7 @@ public class RepaymentControllerTest {
      EmailNotificationService emailSender;
 
     @Test
-    void testViewAllElevators() {
+    void testViewAllRepayments() {
         ArrayList<Repayment> repayments = new ArrayList<>();
         Repayment repayment = new Repayment();
         repayments.add(repayment);

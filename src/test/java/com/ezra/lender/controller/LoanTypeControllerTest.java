@@ -27,7 +27,7 @@ public class LoanTypeControllerTest {
     LoanTypeRepository loanTypeRepository;
 
     @Test
-    void testViewAllElevators() {
+    void testViewAllLoanTypes() {
         ArrayList<LoanType> loanTypes = new ArrayList<>();
         LoanType loanType = new LoanType();
         loanTypes.add(loanType);

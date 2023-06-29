@@ -40,7 +40,7 @@ public class LoanControllerTest {
     @MockBean
     UserRepository userRepository;
     @Test
-    void testViewAllElevators() {
+    void testViewAllLoans() {
         ArrayList<Loan> elevators = new ArrayList<>();
         Loan card = new Loan();
         elevators.add(card);
