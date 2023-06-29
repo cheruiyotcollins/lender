@@ -14,8 +14,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @RequiredArgsConstructor
 public class LoanTypeService {
-    @Autowired
-    LoanTypeRepository loanTypeRepository;
+    private final LoanTypeRepository loanTypeRepository;
     GeneralResponse generalResponse=new GeneralResponse();
 
     public ResponseEntity<?> addLoanType(LoanType loanType){

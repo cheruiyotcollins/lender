@@ -21,9 +21,9 @@ public class RepaymentService {
     private final RepaymentRepository repaymentRepository;
     private final LoanRepository loanRepository;
     private final   UserRepository userRepository;
+
+    private final    EmailNotificationService emailSender;
     GeneralResponse generalResponse=new GeneralResponse();
-    @Autowired
-    EmailNotificationService emailSender;
     public ResponseEntity<?> makePayment(MakePaymentRequest makePaymentRequest){
         try{
             //checking if user and loan type exists

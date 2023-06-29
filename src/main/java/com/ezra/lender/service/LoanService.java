@@ -21,10 +21,8 @@ import java.time.LocalDateTime;
 public class LoanService {
 
     private final  LoanRepository loanRepository;
-    @Autowired
-    LoanTypeRepository loanTypeRepository;
-    @Autowired
-    UserRepository userRepository;
+    private final  LoanTypeRepository loanTypeRepository;
+    private final    UserRepository userRepository;
     GeneralResponse generalResponse=new GeneralResponse();
     @Autowired
     EmailNotificationService emailSender;
@@ -73,6 +71,7 @@ public class LoanService {
                 }).start();
 
                 loanRepository.save(loan);
+                generalResponse.setPayload(loan);
                 generalResponse.setStatus(HttpStatus.CREATED);
                 generalResponse.setDescription("Loan Issued Successfully");
                 return new ResponseEntity<>(generalResponse, HttpStatus.CREATED);
