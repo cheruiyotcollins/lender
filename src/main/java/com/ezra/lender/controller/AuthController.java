@@ -19,15 +19,16 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 @RequestMapping("/user/auth")
-@RequiredArgsConstructor
 public class AuthController {
-        private AuthService authService;
+    @Autowired
+         AuthService authService;
 
         @Autowired
         UserService userService;
@@ -41,7 +42,7 @@ public class AuthController {
         this.authService = authService;
     }
 
-//     Build Login REST API
+
      @Operation(summary = "User sign in/ login")
         @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "User Logged In Successfully",
@@ -50,6 +51,7 @@ public class AuthController {
         @ApiResponse(responseCode = "404",description = "User not found",content = @Content),
         @ApiResponse(responseCode = "400",description = "Bad Request",content = @Content)})
     @PostMapping(value = {"/login", "/signin"})
+     @PreAuthorize("permitAll()")
     public ResponseEntity<JWTAuthResponse> login(@RequestBody LoginDto loginDto){
         String token = authService.login(loginDto);
 
@@ -68,6 +70,7 @@ public class AuthController {
             @ApiResponse(responseCode = "404",description = "User not found",content = @Content),
             @ApiResponse(responseCode = "400",description = "Bad Request",content = @Content)})
     @PostMapping(value = {"/register", "/signup"})
+    @PreAuthorize("permitAll()")
     public ResponseEntity<?> register(@RequestBody SignUpRequest signUpRequest){
         return authService.register(signUpRequest);
     }

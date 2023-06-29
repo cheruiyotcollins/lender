@@ -57,17 +57,15 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests((authorize) ->
-                        //authorize.anyRequest().authenticated()
-                        authorize.requestMatchers("/user/auth/signup").permitAll()
-                                .requestMatchers("/user/auth/signin").permitAll()
-                                .requestMatchers("/swagger-ui/**").permitAll()
+                        authorize.requestMatchers("/swagger-ui/**").permitAll()
                                 .requestMatchers("/v3/**").permitAll()
                                 .requestMatchers("/user/auth/update").hasAuthority("ADMIN")
                                 .requestMatchers("/user/auth/findById/**").hasAuthority("ADMIN")
                                 .requestMatchers("/user/auth/list/all").hasAuthority("ADMIN")
                                 .requestMatchers("/user/auth/deleteById/**").hasAuthority("ADMIN")
                                 .requestMatchers("/user/auth/new/role").hasAuthority("ADMIN")
-
+                                .requestMatchers("/user/auth/signup").permitAll()
+                                .requestMatchers("/user/auth/signin").permitAll()
                                 .requestMatchers("/loans/new").hasAuthority("MEMBER")
                                 .requestMatchers("/loans/get/member/loan").hasAuthority("MEMBER")
                                 .requestMatchers("/loans/list").hasAuthority("ADMIN")
