@@ -9,15 +9,18 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/loans/types/")
+@Slf4j
+@RequiredArgsConstructor
 public class LoanTypeController {
-@Autowired
-    LoanTypeService loanTypeService;
+    private final  LoanTypeService loanTypeService;
 
     @Operation(summary = "Add new Loan Type")
     @ApiResponses(value = {

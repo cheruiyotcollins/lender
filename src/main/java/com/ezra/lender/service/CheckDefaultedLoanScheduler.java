@@ -5,6 +5,8 @@ import com.ezra.lender.model.Loan;
 import com.ezra.lender.repository.DefaultedLoanRepository;
 import com.ezra.lender.repository.LoanRepository;
 import com.ezra.lender.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,18 +19,16 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
+@Slf4j
+@RequiredArgsConstructor
 public class CheckDefaultedLoanScheduler {
     private static final Logger LOGGER = LoggerFactory.getLogger(CheckDefaultedLoanScheduler.class);
-    @Autowired
-    LoanRepository loanRepository;
-    @Autowired
-    DefaultedLoanRepository defaultedLoanRepository;
+    private final LoanRepository loanRepository;
+    private final DefaultedLoanRepository defaultedLoanRepository;
 
-    @Autowired
-    UserRepository userRepository;
+    private final    UserRepository userRepository;
 
-    @Autowired
-    EmailNotificationService emailSender;
+    private final  EmailNotificationService emailSender;
 
 
     //Scheduler, checking and setting loans as defaulted if it has not been cleared within set period
