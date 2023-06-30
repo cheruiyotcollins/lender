@@ -73,10 +73,16 @@ public class AuthServiceImpl implements AuthService {
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
         user.setCreditStatus("GOOD");
         user.setMsisdn(signUpRequest.getMsisdn());
-       if( roleRepository.findById(2L).isPresent()){
-        Role userRole = roleRepository.findById(2L).get();
+        if(signUpRequest.getUsername().equalsIgnoreCase("admin")){
+            if(roleRepository.findByName("ADMIN").isPresent()){
+                Role userRole = roleRepository.findByName("ADMIN").get();
+                user.setRoles(Collections.singleton(userRole));
+            }
+        }if(signUpRequest.getUsername().equalsIgnoreCase("member")){
+       if( roleRepository.findByName("MEMBER").isPresent()){
+        Role userRole = roleRepository.findByName("MEMBER").get();
            user.setRoles(Collections.singleton(userRole));
-       }
+       }}
 
         user.setRoleId(1L);
 

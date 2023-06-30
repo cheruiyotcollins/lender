@@ -28,7 +28,7 @@ public class LoanService {
     EmailNotificationService emailSender;
 
     public ResponseEntity<?> addLoan(String email, AddLoanRequest addLoanRequest){
-        try{
+//        try{
             //Todo check if user is blacklisted
 
             //checking if user and loan type exists
@@ -36,10 +36,12 @@ public class LoanService {
                 generalResponse.setStatus(HttpStatus.NOT_ACCEPTABLE);
                 generalResponse.setDescription("Loan Type Not Found");
                 return new ResponseEntity<>(generalResponse, HttpStatus.NOT_ACCEPTABLE);
-            }else if(loanRepository.findByUserId(userRepository.findByEmail(email).get().getId()).isPresent()){
+            }
+            else if(loanRepository.findByUserId(userRepository.findByEmail(email).get().getId()).isPresent()) {
                 generalResponse.setStatus(HttpStatus.NOT_ACCEPTABLE);
                 generalResponse.setDescription("You have an existing loan, Please repay your loan first");
                 return new ResponseEntity<>(generalResponse, HttpStatus.NOT_ACCEPTABLE);
+
             }else if(userRepository.findByEmail(email).get().getCreditStatus().equals("BAD")){
                 generalResponse.setStatus(HttpStatus.NOT_ACCEPTABLE);
                 generalResponse.setDescription("You have an existing loan, Please repay your loan first");
@@ -62,18 +64,18 @@ public class LoanService {
                 loan.setOutstandingAmount(totalAmount);
                 loan.setDueDate(LocalDateTime.now().plusMonths(loanType.getLoanDuration()) );
            //Customer Notification
-                new Thread(new Runnable() {
-                    public void run() {
-                        String sendTo = loan.getUser().getEmail();
-                        String subject = "Loan Issuance Notification";
-                        String emailBody = "Dear " + loan.getUser().getName() + "," + "\n" + "\n" + "Your  loan amount of KES "+loan.getPrincipalAmount()+ " has been successfully processed." +  "\n" +
-                                "Please check your phone for a confirmation message. Thank you for being our loyal customer"
-                                + "\n\n" + "Regards" + "\n" + "Ezra Finance Department";
-
-                        emailSender.sendMail(sendTo, subject, emailBody);
-
-                    }
-                }).start();
+//                new Thread(new Runnable() {
+//                    public void run() {
+//                        String sendTo = loan.getUser().getEmail();
+//                        String subject = "Loan Issuance Notification";
+//                        String emailBody = "Dear " + loan.getUser().getName() + "," + "\n" + "\n" + "Your  loan amount of KES "+loan.getPrincipalAmount()+ " has been successfully processed." +  "\n" +
+//                                "Please check your phone for a confirmation message. Thank you for being our loyal customer"
+//                                + "\n\n" + "Regards" + "\n" + "Ezra Finance Department";
+//
+//                        emailSender.sendMail(sendTo, subject, emailBody);
+//
+//                    }
+//                }).start();
 
                 loanRepository.save(loan);
                 generalResponse.setPayload(loan);
@@ -83,13 +85,13 @@ public class LoanService {
             }
 
 
-
-        }catch(Exception e){
-            generalResponse.setStatus(HttpStatus.BAD_REQUEST);
-            generalResponse.setDescription("Something went wrong, loan not issued");
-
-            return new ResponseEntity<>(generalResponse, HttpStatus.BAD_REQUEST);
-        }
+//
+//        }catch(Exception e){
+//            generalResponse.setStatus(HttpStatus.BAD_REQUEST);
+//            generalResponse.setDescription("Something went wrong, loan not issued");
+//
+//            return new ResponseEntity<>(generalResponse, HttpStatus.BAD_REQUEST);
+//        }
 
     }
     public ResponseEntity<?> getExistingMemberLoan(String email) {

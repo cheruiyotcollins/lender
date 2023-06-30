@@ -32,8 +32,8 @@ public class LoanController {
              @ApiResponse(responseCode = "400",description = "Bad Request",content = @Content)})
     @PostMapping("new")
     public ResponseEntity<?> addLoan(Authentication authentication, @RequestBody AddLoanRequest loan){
-//        String name =authentication.getName();
-        return loanService.addLoan("kelvincollins86@gmail.com",loan);
+        String name =authentication.getName();
+        return loanService.addLoan(name,loan);
 
     }
     //Customer only
