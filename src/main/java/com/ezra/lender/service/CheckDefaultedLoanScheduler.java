@@ -23,7 +23,6 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class CheckDefaultedLoanScheduler {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CheckDefaultedLoanScheduler.class);
     private final LoanRepository loanRepository;
     private final DefaultedLoanRepository defaultedLoanRepository;
 
@@ -42,7 +41,7 @@ public class CheckDefaultedLoanScheduler {
     @Scheduled(cron="0 0 0 * * *")
     public void defaultLoanChecker() {
         LocalDateTime todaysDate = LocalDateTime.now();
-        LOGGER.info("***Start Running scheduled task, checking defaulted loans" + todaysDate);
+        log.info("***Start Running scheduled task, checking defaulted loans" + todaysDate);
         final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         List<Loan> loans = loanRepository.findAll();
@@ -80,7 +79,7 @@ public class CheckDefaultedLoanScheduler {
             }
         });
 
-        LOGGER.info("***Completed" + LocalDateTime.now());
+        log.info("***Completed" + LocalDateTime.now());
 
     }
 }
